@@ -391,7 +391,6 @@ class SAREnv(gym.Env):
                 r['bad_rescue'] += self.REWARDS['bad_rescue']
 
         # Distance shaping (enable later) 
-        # This adds dense guidance in phases B/C.
         if self.REWARDS['dist_shaping'] != 0.0:
             # Decide current goal:
             # + If carrying => goal is base
