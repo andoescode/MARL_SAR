@@ -21,18 +21,21 @@ class SAREnv(gym.Env):
 
     ID_TO_ACTION = {v: k for k, v in ACTIONS.items()}
 
+    # Reward weights
     REWARDS = {
     'step': -0.05, # Track efficiency (the less step the better)
-    'new_grid': 0.2, # Exploration (new grid visit)
+    'new_grid': 0.2, # Exploration (first time visit new grid)
     'bump': -1.0, # Bump into obstacles or walls
     'scan_success': 3.0, # Scan find victim
     'scan_fail': -0.2, # Scan not find victim
     'pickup': 5.0, # Successful found and pick up victim
     'dropoff': 20.0, # Successful drop off
-    'bad_rescue': -0.5, # Wrong pickup/ drop off attempts
-    'timeout': -10.0, # Take more than the max steps
+    'bad_rescue': -0.5, # Invalid/Incorrect pickup/ drop off attempt
+    'timeout': -10.0, # Timeout penalty
     # Shaping (start with 0.0, then enable later)
-    'dist_shaping': 0.0, # Relative distance from agent when navigating to victim and back to base 
+    'dist_shaping': 0.0, # Relative distance from agent when navigating to victim and going back to base 
+    'revisit': 0.0, # Revisit penalty (local)
+    "global_revisit": 0.0, # Revisit penalty (global, efficiently used in multi-agents env)
     }
     def __init__(self, 
                  grid_size: int = 10, # Size of grid env
