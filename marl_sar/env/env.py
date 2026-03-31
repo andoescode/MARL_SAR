@@ -44,7 +44,7 @@ class SAREnv(gym.Env):
                  render_mode: str | None = None,
                  scan_radius: int = 1, # Radius of the agent scanning (visibility)
                  auto_discover: bool = False, # Agent found victim on the same grid
-                 max_reset_tries: int = 200, # 
+                 max_reset_tries: int = 200, # Max tries for generating solvable map
                  ):
         super().__init__()
 
