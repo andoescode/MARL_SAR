@@ -125,4 +125,50 @@ NOT complete sample Gt > estimate Gt = Rt+1​ + γ∗V(St+1​) (Discount value
     * On-policy = use the same policy for both acting and updating
     ![alt text](fa4891b4-326b-4350-87ff-3d9e3947bf3f.png)
 
+* **Value-based methods**: 
     
+    Reinforcement Learning methods that estimate a *value function as an intermediate step* towards finding an optimal policy.
+
+* **Policy-based methods**: 
+
+    Reinforcement Learning methods that *directly learn to approximate the optimal policy without learning a value function*. In practice they output a **probability distribution over actions**.
+
+* The benefits of using **policy-gradient methods over value-based methods** include:
+
+    * simplicity of integration: no need to store action values;
+    * ability to learn a stochastic policy: the agent explores the state space without always taking the same trajectory, and avoids the problem of perceptual aliasing;
+    * effectiveness in high-dimensional and continuous action spaces; and
+    * improved convergence properties.
+
+* **Policy Gradient**: 
+
+    A subset of policy-based methods where the objective is to **maximize the performance of a parameterized policy** using **gradient ascent**. 
+
+    The goal of a policy-gradient is to control the **probability distribution of actions** by tuning the policy such that good actions (that maximize the return) are sampled more frequently in the future. (aka. ***Higher chances of taking action A_i for this state S_i***)
+
+* **Monte Carlo Reinforce**: 
+
+    A policy-gradient algorithm that uses an estimated return from an entire episode to update the policy parameter.
+
+* **Advantage Actor Critic (A2C)** = **Actor** (policy-based) + **Critic** (value-based):
+    * Both actor and critic learn throughout the training process
+    * Actor learn to update policy, critic learn to evaluate the action made for that specific state
+    * Bias the action that return better reward/ higher 'Advantage' Adv(s,a) = Q(s,a) - V(s) = (Q_val of state_i, action_i) - (avg(values_of_state))
+
+* **PPO = Proximal Policy Optimization**:
+    * Improve training stability by avoiding oversize policy updates
+    * Clip ratio R to range [1−ϵ,1+ϵ] with R = difference between current vs old policy
+    * Update policy conservatively -> Choose only policy with updates that is not too far off the old one -> Push agent to prioritise taking meaningful actions with high rewards 
+    * Ratio = P_policy_now(a_i | s_i)| P_policy_old(a_i | s_i)
+        ![alt text](image-4.png)
+        * Ratio > 1 -> action -> action more likely for current policy than old one
+        * Ratio in range [0,1] -> action less likely for current policy than old one
+        * Ratio in range [1−ϵ,1+ϵ]: positive -> increase probability; negative -> decrease probability
+        * Ratio < 1−ϵ (prob of (a_i|s_i) in current policy is much lower than the old one): Advantage A > 0 -> increase probability, else skip
+        * Ratio > 1+ϵ (prob of (a_i|s_i) in current policy is much higher than the old one): Advantage A < 0 -> decrease probability, else skip
+    * Only update policy with unclipped oobjective part:
+    * Only update policy if:
+        * ratio within [1−ϵ,1+ϵ]
+        * update make ratio move closer to the range [1−ϵ,1+ϵ]
+        * 
+
